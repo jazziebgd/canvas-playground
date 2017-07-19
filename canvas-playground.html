@@ -1,0 +1,222 @@
+<div class="canvas-playground">
+    <div class="canvas-controls">
+        <h2>
+            Canvas control
+            <div class="top-settings">
+                <div class="top-setting-item">
+                    <label for="autoClear">
+                        Autoclear
+                    </label>
+                    <input id="autoClear" v-model="autoClear" type="checkbox" />
+                </div>
+                <div class="top-setting-item">
+                    <label for="autoStrokeWidth">
+                        Auto stroke width
+                    </label>
+                    <input id="autoStrokeWidth" v-model="autoStrokeWidth" type="checkbox" />
+                </div>
+                <div class="top-setting-item">
+                    <label for="autoSize">
+                        Autosize
+                    </label>
+                    <input id="autoSize" v-model="autoSize" type="checkbox" />
+                </div>
+                <div class="top-setting-item">
+                    <label for="autoCenter">
+                        Autocenter
+                    </label>
+                    <input id="autoCenter" v-model="autoCenter" type="checkbox" />
+                </div>
+                <transition name="fade">
+                    <div v-show="dataChanged" class="top-setting-item">
+                        <button class="reset-all" @click.prevent="resetAll">
+                            <span class="fa fa-undo"></span>
+                            Reset all
+                        </button>
+                    </div>
+                </transition>
+                <div class="top-setting-item">
+                    <button class="download-image" @click.prevent="saveImage">
+                        <span class="fa fa-download"></span>
+                        Save
+                    </button>
+                    <div class="download-image-placeholder">
+                        <input accept=".png" class="file-picker" type="file" v-bind:nwsaveas="'smiley.png'" v-on:change="doSaveImage" />
+                    </div>
+                </div>
+            </div>
+        </h2>
+        <div class="canvas-control-row">
+            <div class="canvas-control-column">
+                <div class="canvas-control-group">
+                    <div class="canvas-control">
+                        <label for="animateCanvas">
+                            Animate
+                        </label>
+                        <input id="animateCanvas" v-model="animateCanvas" type="checkbox" />
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Speed
+                        </label>
+                        <input v-model.number="animationFrameSkip" class="range-input range-input-reversed" type="range" :min="1" :max="59" step="1" />
+                    </div>
+                </div>
+                <transition name="fade">
+                    <div class="canvas-control-group" v-if="!animateCanvas && !autoSize">
+                        <div class="canvas-control">
+                            <label>
+                                Canvas w <strong class="canvas-value-wrapper">({{ canvasWidth }})</strong>
+                            </label>
+                            <input v-model.number="canvasWidth" class="range-input" type="range" v-bind:min="canvasMinWidth" :max="canvasMaxWidth" step="1" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                Canvas h <strong class="canvas-value-wrapper">({{ canvasHeight }})</strong>
+                            </label>
+                            <input v-model.number="canvasHeight" class="range-input" type="range" v-bind:min="canvasMinHeight" :max="canvasMaxHeight" step="1" />
+                        </div>
+                    </div>
+                </transition>
+                <transition name="fade">
+                    <div class="canvas-control-group" v-if="!animateCanvas">
+                        <transition name="fade">
+                            <div class="canvas-control"  v-if="!autoCenter">
+                                <label>
+                                    Center X <strong class="canvas-value-wrapper">({{ smileyCenterX }})</strong>
+                                </label>
+                                <input v-model.number="smileyCenterX" class="range-input" type="range" :min="canvasBleed + smileyRadius" :max="canvasWidth - smileyRadius - canvasBleed" step="1" />
+                            </div>
+                        </transition>
+                        <transition name="fade">
+                            <div class="canvas-control" v-if="!autoCenter">
+                                <label>
+                                    Center Y <strong class="canvas-value-wrapper">({{ smileyCenterY }})</strong>
+                                </label>
+                                <input v-model.number="smileyCenterY" class="range-input" type="range" :min="canvasBleed + smileyRadius" :max="canvasHeight - smileyRadius - canvasBleed" step="1" />
+                            </div>
+                        </transition>
+                        <div class="canvas-control">
+                            <label>
+                                Radius <strong class="canvas-value-wrapper">({{ smileyRadius }})</strong>
+                            </label>
+                            <input v-model.number="smileyRadius" class="range-input" type="range" :min="10" :max="200" step="1" />
+                        </div>
+                    </div>
+                </transition>
+                <div class="canvas-control-group">
+                    <div class="canvas-control">
+                        <label>
+                            Background color
+                        </label>
+                        <input type="color" v-model="canvasBackground.hex" />
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Alpha <strong class="canvas-value-wrapper">({{ canvasBackground.alpha }})</strong>
+                        </label>
+                        <input v-model.number="canvasBackground.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="canvas-control-column">
+                <div class="canvas-control-group">
+                    <div class="canvas-control-group-title">
+                        Smiley
+                    </div>
+                    <div class="canvas-control">
+                        <label for="smileyStroke.enabled">
+                            Outer stroke
+                        </label>
+                        <input id="smileyStroke.enabled" v-model="smileyStroke.enabled" type="checkbox" />
+                    </div>
+                    <transition name="fade">
+                        <div class="canvas-control" v-if="smileyStroke.enabled && !autoStrokeWidth">
+                            <label>
+                                Stroke width <strong class="canvas-value-wrapper">({{ smileyStroke.width }})</strong>
+                            </label>
+                            <input v-model.number="smileyStroke.width" class="range-input" type="range" :min="1" :max="10" step="0.01" />
+                        </div>
+                    </transition>
+                    <transition name="fade">
+                        <div class="canvas-control-group" v-if="smileyStroke.enabled">
+                            <div class="canvas-control">
+                                <label>
+                                    Stroke color
+                                </label>
+                                <input type="color" v-model="smileyStroke.hex" />
+                            </div>
+                            <div class="canvas-control">
+                                <label>
+                                    Alpha <strong class="canvas-value-wrapper">({{ smileyStroke.alpha }})</strong>
+                                </label>
+                                <input v-model.number="smileyStroke.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
+                            </div>
+                        </div>
+                    </transition>
+                </div>
+                <div class="canvas-control-group">
+                    <div class="canvas-control-group-title">
+                        Mouth
+                    </div>
+                    <transition name="fade">
+                        <div class="canvas-control" v-if="!autoStrokeWidth">
+                            <label>
+                                Width <strong class="canvas-value-wrapper">({{ mouthStroke.width }})</strong>
+                            </label>
+                            <input v-model.number="mouthStroke.width" class="range-input" type="range" :min="1" :max="10" step="0.01" />
+                        </div>
+                    </transition>
+                    <div class="canvas-control">
+                        <label>
+                            Color
+                        </label>
+                        <input type="color" v-model="mouthStroke.hex" />
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Alpha <strong class="canvas-value-wrapper">({{ mouthStroke.alpha }})</strong>
+                        </label>
+                        <input v-model.number="mouthStroke.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
+                    </div>
+                </div>
+            </div>
+            <div class="canvas-control-column">
+                <div class="canvas-control-group">
+                    <div class="canvas-control">
+                        <label>
+                            Smiley color
+                        </label>
+                        <input type="color" v-model="smileyFill.hex" />
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Alpha <strong class="canvas-value-wrapper">({{ smileyFill.alpha }})</strong>
+                        </label>
+                        <input v-model.number="smileyFill.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
+                    </div>
+                </div>
+                <div class="canvas-control-group">
+                    <div class="canvas-control">
+                        <label>
+                            Eyes color
+                        </label>
+                        <input type="color" v-model="eyeFill.hex" />
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Alpha <strong class="canvas-value-wrapper">({{ eyeFill.alpha }})</strong>
+                        </label>
+                        <input v-model.number="eyeFill.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="canvas-wrapper">
+        <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one">
+            no canvas support
+        </canvas>
+    </div>
+</div>

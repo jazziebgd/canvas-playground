@@ -1,0 +1,150 @@
+.canvas-playground {
+    padding: 10px;
+    display: flex;
+    flex-flow: column;
+    justify-content: space-between;
+}
+
+.canvas-wrapper,
+.canvas-controls {
+    flex: 1 1 auto;
+}
+
+.canvas-controls {
+    margin-bottom: 10px;
+    border:1px solid #CCCCCC;
+}
+
+.canvas-wrapper {
+    text-align: center;
+}
+
+.canvas-one {
+    border:1px solid #CCCCCC;
+}
+
+.canvas-control-row {
+    padding: 10px;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
+.canvas-control-row:first-of-type {
+    padding-top: 0;
+}
+
+.canvas-control-column {
+    flex: 1 1 33%;
+    border: 1px solid #999999;
+    margin-left: 10px;
+    padding: 5px;
+}
+
+.canvas-control-column:first-of-type {
+    margin-left: 0;
+}
+
+.canvas-control-group {
+    padding: 5px 0;
+    transition: opacity linear var(--medium-animation-duration);
+    margin-bottom: 10px;
+}
+
+.control-group-hidden {
+    opacity: 0;
+    pointer-events: none;
+}
+
+.canvas-control-group-title {
+    font-weight: bold;
+    padding: 5px 0px;
+    font-size: 0.9rem;
+}
+
+.canvas-control-group-title:first-of-type {
+    padding-top: 0;
+}
+
+.canvas-control {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    margin: 2px 0 3px 0;
+    text-align: right;
+}
+
+.canvas-control label {
+    flex: 1 1 auto;
+    text-align: left;
+}
+
+.canvas-control input {
+    flex: 1 1 45%;
+}
+
+.canvas-control input[type=checkbox],
+.canvas-control input[type=color] {
+    flex: 0 1 auto;
+}
+
+
+.canvas-controls h2 {
+    font-size: 1rem;
+    margin: 5px;
+    padding: 0;
+    height: 24px;
+}
+
+.top-settings {
+    font-size: 0.8rem;
+    display: flex;
+    float: right;
+    margin-right: 10px;
+    position: relative;
+    top: 3px;
+}
+
+.top-setting-item {
+    flex: 1 1 auto;
+    margin: 0 5px;
+}
+
+.reset-all,
+.download-image {
+    cursor: pointer;
+}
+
+.reset-all:hover,
+.download-image:hover {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.download-image-placeholder {
+    display: none;
+}
+
+.range-input {
+    position: relative;
+    top: -2px;
+}
+
+.range-input-reversed {
+    direction: rtl;
+}
+
+.canvas-style-color-box {
+    display: inline-block;
+    margin-left: 10px;
+    position: relative;
+    top: 4px;
+    border: 1px solid #CCCCCC;
+    width: 15px;
+    height: 15px;
+}
+
+.canvas-value-wrapper {
+    display: inline-block;
+    min-width: 30px;
+}
