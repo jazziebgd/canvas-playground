@@ -82,7 +82,7 @@ exports.component = {
             }
 
 
-            if (this.autoCenter){
+            if (!(this.animationId && this.gravity) && this.autoCenter){
                 this.smileyCenterX = this.canvasWidth / 2;
                 this.smileyCenterY = this.canvasHeight / 2;
             }
@@ -194,12 +194,27 @@ exports.component = {
         animate: function(){
             let canvas = this.$el.querySelector('.canvas-one');
             let ctx = canvas.getContext('2d');
-            ctx.translate((this.smileyCenterX), (this.smileyCenterY));
-            let step = 360 / this.animationFrameSkip;
-            let angle = ((Math.PI / 180) * step);
-            ctx.rotate(angle);
-            ctx.translate(-(this.smileyCenterX), -(this.smileyCenterY));
+            if (!this.gravity){
+                ctx.translate((this.smileyCenterX), (this.smileyCenterY));
+                let step = 360 / this.animationFrameSkip;
+                let angle = ((Math.PI / 180) * step);
+                ctx.rotate(angle);
+                ctx.translate(-(this.smileyCenterX), -(this.smileyCenterY));
+            }
             this.clearCanvas();
+
+            if (this.smileyCenterY > this.canvasHeight - this.canvasBleed - this.smileyRadius){
+                this.vY = -(this.vY * this.dYTimes);
+            } else if (this.smileyCenterY < this.canvasBleed + this.smileyRadius){
+                this.vY = -(this.vY * this.dYTimes);
+            }
+
+            if (this.gravity){
+                this.smileyCenterY += this.vY;
+                this.vY *= this.dYTimes;
+                this.vY += this.dYPlus;
+            }
+
             this.drawSmiley();
             if (this.animationCounter < this.animationFrameSkip){
                 this.animationCounter++;

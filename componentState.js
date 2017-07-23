@@ -16,7 +16,7 @@ exports.appState = {
             canvasBleed: 5,
 
             canvasMaxWidth: 500,
-            canvasMaxHeight: 10000,
+            canvasMaxHeight: 1000,
 
             canvasMinWidth: 50,
             canvasMinHeight: 50,
@@ -28,12 +28,22 @@ exports.appState = {
             animationFrameSkip: 30,
             animationId: '',
 
+            gravity: false,
+            vX: 0,
+            vY: 3,
+
+            dXTimes: 0.99,
+            dXPlus: 0.1,
+
+            dYTimes: 0.99,
+            dYPlus: 0.1,
+
             canvasBackground: {
                 hex: '#7F7F7F',
                 red: 127,
                 green: 127,
                 blue: 127,
-                alpha: 1,
+                alpha: 0,
                 lock: true,
                 all: 127,
             },

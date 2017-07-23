@@ -21,6 +21,7 @@
 
 .canvas-one {
     border:1px solid #CCCCCC;
+    background: url(./transparent-background.png) top left repeat;
 }
 
 .canvas-control-row {
