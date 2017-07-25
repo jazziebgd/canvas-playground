@@ -1,58 +1,7 @@
 <div class="canvas-playground">
-    <div class="canvas-controls">
-        <h2>
-            Canvas control
-            <div class="top-settings">
-                <!-- <div class="top-setting-item">
-                    <label for="autoClear">
-                        Autoclear
-                    </label>
-                    <input id="autoClear" v-model="autoClear" type="checkbox" />
-                </div> -->
-                <div class="top-setting-item">
-                    <label for="gravity">
-                        gravity
-                    </label>
-                    <input id="gravity" v-model="gravity" type="checkbox" />
-                </div>
-                <div class="top-setting-item">
-                    <label for="autoStrokeWidth">
-                        Auto stroke width
-                    </label>
-                    <input id="autoStrokeWidth" v-model="autoStrokeWidth" type="checkbox" />
-                </div>
-                <div class="top-setting-item">
-                    <label for="autoSize">
-                        Autosize
-                    </label>
-                    <input id="autoSize" v-model="autoSize" type="checkbox" />
-                </div>
-                <div class="top-setting-item">
-                    <label for="autoCenter">
-                        Autocenter
-                    </label>
-                    <input id="autoCenter" v-model="autoCenter" type="checkbox" />
-                </div>
-                <transition name="fade">
-                    <div v-show="dataChanged" class="top-setting-item">
-                        <button class="reset-all" @click.prevent="resetAll">
-                            <span class="fa fa-undo"></span>
-                            Reset all
-                        </button>
-                    </div>
-                </transition>
-                <div class="top-setting-item">
-                    <button class="download-image" @click.prevent="saveImage">
-                        <span class="fa fa-download"></span>
-                        Save
-                    </button>
-                    <div class="download-image-placeholder">
-                        <input accept=".png" class="file-picker" type="file" v-bind:nwsaveas="'smiley.png'" v-on:change="doSaveImage" />
-                    </div>
-                </div>
-            </div>
-        </h2>
-        <div class="canvas-control-row">
+    <canvas-playground-top ref="canvasPlaygroundTop"></canvas-playground-top>
+    <div class="canvas-playground-main">
+        <div class="canvas-controls">
             <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control">
@@ -65,7 +14,7 @@
                         <label>
                             Speed
                         </label>
-                        <input v-model.number="animationFrameSkip" class="range-input range-input-reversed" type="range" :min="1" :max="59" step="1" />
+                        <input v-model.number="animationFrameSkip" class="range-input range-input-reversed" type="range" :min="2" :max="59" step="1" />
                     </div>
                 </div>
                 <transition name="fade">
@@ -124,9 +73,6 @@
                         <input v-model.number="canvasBackground.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
                 </div>
-            </div>
-
-            <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
                         Smiley
@@ -162,6 +108,8 @@
                         </div>
                     </transition>
                 </div>
+            </div>
+            <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
                         Mouth
@@ -187,8 +135,6 @@
                         <input v-model.number="mouthStroke.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
                 </div>
-            </div>
-            <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label>
@@ -219,10 +165,10 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div class="canvas-wrapper">
-        <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one">
-            no canvas support
-        </canvas>
+        <div class="canvas-wrapper">
+            <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one">
+                no canvas support
+            </canvas>
+        </div>
     </div>
 </div>

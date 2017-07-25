@@ -1,0 +1,28 @@
+.top-settings {
+    font-size: 0.8rem;
+    display: flex;
+    margin-bottom: 10px;
+    padding: 5px;
+    margin-bottom: 5px;
+    border:1px solid #CCCCCC;
+}
+
+.top-setting-item {
+    flex: 1 1 auto;
+    margin: 0 5px;
+}
+
+.reset-all,
+.download-image {
+    cursor: pointer;
+}
+
+.reset-all:hover,
+.download-image:hover {
+    color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.download-image-placeholder {
+    display: none;
+}

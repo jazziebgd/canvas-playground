@@ -3,19 +3,21 @@ const _ = require('lodash');
 var _appWrapper = window.getAppWrapper();
 var appState = _appWrapper.getAppState();
 
-exports.component = {
+let componentData = {
     name: 'canvas-playground',
     template: '',
     defaultData: {},
     data: function () {
-        return appState.appData.canvasPlaygroundData;
+        return appState.userData.canvasPlaygroundData;
     },
     created: function(){
-        this.defaultData = _.cloneDeep(appState.appData.canvasPlaygroundData);
+        appState.userData.canvasPlaygroundData.animationId = '';
+        this.defaultData = _.cloneDeep(appState.appData.canvasPlaygroundDefaultData);
     },
     mounted: function(){
         this.setupCanvas();
         this.drawCanvas();
+        this.$forceUpdate();
     },
     updated: function(){
         if (!this.animateCanvas){
@@ -26,6 +28,12 @@ exports.component = {
             }
         } else if (!this.animationId) {
             this.animate();
+        }
+        this.saveUserData();
+    },
+    destroyed: function(){
+        if (this.animateCanvas){
+            this.stopAnimating();
         }
     },
     methods: {
@@ -54,9 +62,9 @@ exports.component = {
             this.canvasMinHeight = 2 * this.smileyRadius + 2 * this.canvasBleed;
 
             this.canvasMaxWidth = fullWidth;
-            this.canvasWidth = fullWidth;
-            this.smileyCenterX = fullWidth / 2;
-            this.smileyCenterY = this.canvasHeight / 2;
+            // this.canvasWidth = fullWidth;
+            // this.smileyCenterX = fullWidth / 2;
+            // this.smileyCenterY = this.canvasHeight / 2;
         },
         drawCanvas: function(){
             if (this.autoClear){
@@ -259,6 +267,23 @@ exports.component = {
                 _appWrapper.addUserMessage('No file selected', 'error', [], false, true);
             }
         },
+        saveUserData: async function(e, noNotification) {
+            if (e && e.target && e.target.hasClass('button-disabled')){
+                return;
+            }
+            let userDataHelper = _appWrapper.getHelper('userData');
+            let saved = await userDataHelper.saveUserData(appState.userData);
+            if (saved && !noNotification){
+                _appWrapper.addUserMessage('User data saved.', 'info', []);
+            }
+        },
+        userDataChanged: function(){
+            let utilHelper = _appWrapper.getHelper('util');
+            var currentData = _.cloneDeep(this.$data);
+            var oldData = _.cloneDeep(appState.userData.canvasPlaygroundData);
+            var dataDiff = utilHelper.difference(oldData, currentData);
+            return Object.keys(dataDiff).length;
+        },
     },
     computed: {
         appState: function(){
@@ -267,5 +292,31 @@ exports.component = {
         dataChanged: function(){
             return JSON.stringify(this.$data) != JSON.stringify(this.defaultData);
         }
+    },
+    watch: {
+        gravity: function(){
+            let canvas = this.$el.querySelector('.canvas-one');
+            let ctx = canvas.getContext('2d');
+            ctx.resetTransform();
+        }
     }
+};
+
+exports.component = async (resolve) => {
+    await _appWrapper.getHelper('userData').loadUserData();
+
+    if (this && this.component && this.component._prepareParams){
+        let componentHelper = _appWrapper.getHelper('component');
+        let params = _.concat([componentData], this.component._prepareParams);
+        componentData = await componentHelper.prepareComponentArray(params);
+    } else {
+        componentData.template = await _appWrapper.fileManager.loadFile(__dirname + '/' + componentData.name + '.html');
+    }
+    if (appState.userData){
+        if (!appState.userData.canvasPlaygroundData){
+            appState.userData.canvasPlaygroundData = {};
+        }
+        _.defaultsDeep(appState.userData.canvasPlaygroundData, appState.appData.canvasPlaygroundDefaultData);
+    }
+    resolve(componentData);
 };

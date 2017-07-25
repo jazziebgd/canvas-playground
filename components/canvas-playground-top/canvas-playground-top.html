@@ -1,0 +1,44 @@
+
+<div class="top-settings">
+    <div class="top-setting-item">
+        <label for="gravity">
+            gravity
+        </label>
+        <input id="gravity" v-model="gravity" type="checkbox" />
+    </div>
+    <div class="top-setting-item">
+        <label for="autoStrokeWidth">
+            Auto stroke width
+        </label>
+        <input id="autoStrokeWidth" v-model="autoStrokeWidth" type="checkbox" />
+    </div>
+    <div class="top-setting-item">
+        <label for="autoSize">
+            Autosize
+        </label>
+        <input id="autoSize" v-model="autoSize" type="checkbox" />
+    </div>
+    <div class="top-setting-item">
+        <label for="autoCenter">
+            Autocenter
+        </label>
+        <input id="autoCenter" v-model="autoCenter" type="checkbox" />
+    </div>
+    <transition name="fade">
+        <div v-show="dataChanged" class="top-setting-item">
+            <button class="reset-all" @click.prevent="resetAll">
+                <span class="fa fa-undo"></span>
+                Reset all
+            </button>
+        </div>
+    </transition>
+    <div class="top-setting-item">
+        <button class="download-image" @click.prevent="saveImage">
+            <span class="fa fa-download"></span>
+            Save
+        </button>
+        <div class="download-image-placeholder">
+            <input accept=".png" class="file-picker" type="file" v-bind:nwsaveas="'smiley.png'" v-on:change="doSaveImage" />
+        </div>
+    </div>
+</div>

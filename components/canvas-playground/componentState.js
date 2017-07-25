@@ -1,6 +1,6 @@
 exports.appState = {
     appData: {
-        canvasPlaygroundData: {
+        canvasPlaygroundDefaultData: {
 
             autoClear: true,
             autoSize: true,
@@ -92,5 +92,6 @@ exports.appState = {
             },
 
         },
+        canvasPlaygroundData: {}
     },
 };
