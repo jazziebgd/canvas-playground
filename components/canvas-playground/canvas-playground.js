@@ -284,6 +284,28 @@ let componentData = {
             var dataDiff = utilHelper.difference(oldData, currentData);
             return Object.keys(dataDiff).length;
         },
+        canvasClick: function (e) {
+            if (this.animationId && this.gravity){
+                let clientX = e.clientX;
+                let clientY = e.clientY;
+                let offsetLeft = e.target.offsetLeft;
+                let offsetTop = e.target.offsetTop;
+                let left = clientX - offsetLeft;
+                let top = clientY - offsetTop;
+                if (top < this.smileyRadius + 10){
+                    top = this.smileyRadius + 10;
+                } else if (top > this.canvasHeight - (this.smileyRadius + 10)){
+                    top = this.canvasHeight - (this.smileyRadius + 10);
+                }
+                if (left < this.smileyRadius + 10){
+                    left = this.smileyRadius + 10;
+                } else if (left > this.canvasWidth - (this.smileyRadius + 10)){
+                    left = this.canvasWidth - (this.smileyRadius + 10);
+                }
+                this.smileyCenterX = left;
+                this.smileyCenterY = top;
+            }
+        }
     },
     computed: {
         appState: function(){

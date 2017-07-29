@@ -166,7 +166,7 @@
             </div>
         </div>
         <div class="canvas-wrapper">
-            <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one">
+            <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one" @click.prevent="canvasClick">
                 no canvas support
             </canvas>
         </div>
