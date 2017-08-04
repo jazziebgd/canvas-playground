@@ -3,7 +3,7 @@ exports.appState = {
         canvasPlaygroundDefaultData: {
 
             autoClear: true,
-            autoSize: true,
+            autoSize: false,
             autoStrokeWidth: true,
             autoCenter: true,
 
@@ -11,15 +11,15 @@ exports.appState = {
             smileyCenterY: 100,
 
 
-            canvasWidth: 300,
-            canvasHeight: 130,
+            canvasWidth: 200,
+            canvasHeight: 300,
             canvasBleed: 5,
 
             canvasMaxWidth: 500,
             canvasMaxHeight: 1000,
 
-            canvasMinWidth: 50,
-            canvasMinHeight: 50,
+            canvasMinWidth: 60,
+            canvasMinHeight: 60,
 
             smileyRadius: 50,
 
@@ -27,13 +27,14 @@ exports.appState = {
             animationCounter: 0,
             animationFrameSkip: 30,
             animationId: '',
+            manualAnimation: false,
 
-            gravity: false,
+            gravity: true,
             vX: 0,
             vY: 3,
 
-            dXTimes: 0.99,
-            dXPlus: 0.1,
+            dXTimes: 1,
+            dXPlus: 0.0,
 
             dYTimes: 0.99,
             dYPlus: 0.1,

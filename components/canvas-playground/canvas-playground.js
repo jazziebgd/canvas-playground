@@ -12,6 +12,7 @@ let componentData = {
     },
     created: function(){
         appState.userData.canvasPlaygroundData.animationId = '';
+        appState.userData.canvasPlaygroundData.manualAnimation = false;
         this.defaultData = _.cloneDeep(appState.appData.canvasPlaygroundDefaultData);
     },
     mounted: function(){
@@ -210,32 +211,75 @@ let componentData = {
                 ctx.translate(-(this.smileyCenterX), -(this.smileyCenterY));
             }
             this.clearCanvas();
-
-            if (this.smileyCenterY > this.canvasHeight - this.canvasBleed - this.smileyRadius){
-                this.vY = -(this.vY * this.dYTimes);
-            } else if (this.smileyCenterY < this.canvasBleed + this.smileyRadius){
-                this.vY = -(this.vY * this.dYTimes);
-            }
-
             if (this.gravity){
-                this.smileyCenterY += this.vY;
-                this.vY *= this.dYTimes;
-                this.vY += this.dYPlus;
-            }
+                let forceCenterY = false;
+                let forceCenterX = false;
+                let smileyBottom = this.smileyCenterY + this.smileyRadius;
+                let smileyTop = this.smileyCenterY - this.smileyRadius;
 
+                let smileyRight = this.smileyCenterX + this.smileyRadius;
+                let smileyLeft = this.smileyCenterX - this.smileyRadius;
+
+                if (smileyBottom > this.canvasHeight){
+                    forceCenterY = true;
+                    this.smileyCenterY = this.canvasHeight - this.smileyRadius;
+                } else if (smileyBottom >= this.canvasHeight){
+                    this.vY = -(this.vY * this.dYTimes);
+                } else if (smileyTop < 0){
+                    forceCenterY = true;
+                    this.smileyCenterY = this.smileyRadius;
+                } else if (smileyTop <= 0){
+                    this.vY = -(this.vY * this.dYTimes);
+                }
+
+                if (!forceCenterY){
+                    this.smileyCenterY += this.vY;
+                    this.vY *= this.dYTimes;
+                    this.vY += this.dYPlus;
+                }
+
+                if (smileyRight > this.canvasWidth){
+                    forceCenterX = true;
+                    this.smileyCenterX = this.canvasWidth - this.smileyRadius;
+                } else if (smileyRight >= this.canvasWidth){
+                    this.vX = -(this.vX * this.dXTimes);
+                } else if (smileyLeft < 0){
+                    forceCenterX = true;
+                    this.smileyCenterX = this.smileyRadius;
+                } else if (smileyLeft <= 0){
+                    this.vX = -(this.vX * this.dXTimes);
+                }
+
+                if (!forceCenterX){
+                    this.smileyCenterX += this.vX;
+                    this.vX *= this.dXTimes;
+                    this.vX += this.dXPlus;
+                }
+            }
             this.drawSmiley();
             if (this.animationCounter < this.animationFrameSkip){
                 this.animationCounter++;
-                this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                if (!this.manualAnimation){
+                    this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                }
             } else {
                 this.animationCounter = 0;
-                this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                if (!this.manualAnimation){
+                    this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                }
             }
         },
         stopAnimating: function(){
             window.cancelAnimationFrame(this.animationId);
+            this.manualAnimation = false;
             this.animationId = '';
             this.animationCounter = 0;
+            this.vY = appState.appData.canvasPlaygroundDefaultData.vY;
+            this.vX = appState.appData.canvasPlaygroundDefaultData.vX;
+            this.dYPlus = appState.appData.canvasPlaygroundDefaultData.dYPlus;
+            this.dYTimes = appState.appData.canvasPlaygroundDefaultData.dYTimes;
+            this.dXPlus = appState.appData.canvasPlaygroundDefaultData.dXPlus;
+            this.dXTimes = appState.appData.canvasPlaygroundDefaultData.dXTimes;
             let canvas = this.$el.querySelector('.canvas-one');
             let ctx = canvas.getContext('2d');
             ctx.resetTransform();
@@ -304,7 +348,26 @@ let componentData = {
                 }
                 this.smileyCenterX = left;
                 this.smileyCenterY = top;
+                this.drawCanvas();
             }
+        },
+        animateManual: function(){
+            this.animate();
+        },
+        getAnimationFrameData: function(){
+            let data = {
+                smileyCenterY: _.round(this.$data.smileyCenterY, 2),
+                vY: _.round(this.$data.vY, 2),
+                canvasHeight: this.$data.canvasHeight,
+                canvasBleed: this.$data.canvasBleed,
+            };
+            return data;
+        },
+        resetDYPlus: function(){
+            this.$data.dYPlus = appState.appData.canvasPlaygroundDefaultData.dYPlus;
+        },
+        resetDXPlus: function(){
+            this.$data.dXPlus = appState.appData.canvasPlaygroundDefaultData.dXPlus;
         }
     },
     computed: {
@@ -320,6 +383,11 @@ let componentData = {
             let canvas = this.$el.querySelector('.canvas-one');
             let ctx = canvas.getContext('2d');
             ctx.resetTransform();
+        },
+        manualAnimation: function(){
+            if (!this.manualAnimation && this.animationId){
+                this.animate();
+            }
         }
     }
 };

@@ -87,3 +87,22 @@
     display: inline-block;
     min-width: 30px;
 }
+
+.animation-step-control {
+    text-align: center;
+}
+
+.animation-inspector {
+    padding: 5px;
+    justify-content: center;
+}
+.animation-inspector .inspector-json {
+    background: #CCCCCC;
+    flex: 1 1 auto;
+    font-size: 0.8rem;
+    text-align: left;
+}
+.animation-inspector .inspector-json var {
+    float: right;
+
+}

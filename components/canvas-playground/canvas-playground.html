@@ -10,6 +10,67 @@
                         </label>
                         <input id="animateCanvas" v-model="animateCanvas" type="checkbox" />
                     </div>
+                    <div class="canvas-control" v-show="animateCanvas">
+                        <label for="manualAnimation">
+                            Manual animation
+                        </label>
+                        <input id="manualAnimation" v-model="manualAnimation" type="checkbox" />
+                    </div>
+                    <div class="canvas-control animation-step-control" v-show="animateCanvas && manualAnimation">
+                        <input type="button" @click.prevent="animateManual" value="Animation step"/>
+                    </div>
+                    <div class="canvas-control-group animation-inspector" v-show="animateCanvas && manualAnimation">
+                        <div class="canvas-control">
+                            <label>
+                                centerY
+                            </label>
+                            <input v-model.number="smileyCenterY" type="text" @change="drawCanvas" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                vY
+                            </label>
+                            <input v-model.number="vY" type="text" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                dYPlus
+                            </label>
+                            <input v-model.number="dYPlus" type="text" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                dYTimes
+                            </label>
+                            <input v-model.number="dYTimes" type="text" />
+                        </div>
+                        <br />
+                        <br />
+                        <div class="canvas-control">
+                            <label>
+                                centerX
+                            </label>
+                            <input v-model.number="smileyCenterX" type="text" @change="drawCanvas" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                vX
+                            </label>
+                            <input v-model.number="vX" type="text" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                dXPlus
+                            </label>
+                            <input v-model.number="dXPlus" type="text" />
+                        </div>
+                        <div class="canvas-control">
+                            <label>
+                                dXTimes
+                            </label>
+                            <input v-model.number="dXTimes" type="text" />
+                        </div>
+                    </div>
                     <div class="canvas-control">
                         <label>
                             Speed
@@ -17,8 +78,31 @@
                         <input v-model.number="animationFrameSkip" class="range-input range-input-reversed" type="range" :min="2" :max="59" step="1" />
                     </div>
                 </div>
+                <div class="canvas-control-group">
+                    <div class="canvas-control">
+                        <label>
+                            Gravity <strong class="canvas-value-wrapper">({{ dYPlus }})</strong>
+                        </label>
+                        <input v-model.number="dYPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
+                        <a class="reset-dyplus fa fa-undo" @click.prevent="resetDYPlus"></a>
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Wind <strong class="canvas-value-wrapper">({{ dXPlus }})</strong>
+                        </label>
+                        <input v-model.number="dXPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
+                        <a class="reset-dxplus fa fa-undo" @click.prevent="resetDXPlus"></a>
+                    </div>
+                    <div class="canvas-control">
+                        <label>
+                            Air resistance <strong class="canvas-value-wrapper">({{ 1 - dXTimes }})</strong>
+                        </label>
+                        <input v-model.number="dXTimes" class="range-input" type="range" min="0.01" max="0.99" step="0.01" />
+                        <a class="reset-dxtimes fa fa-undo" @click.prevent="resetDXTimes"></a>
+                    </div>
+                </div>
                 <transition name="fade">
-                    <div class="canvas-control-group" v-if="!animateCanvas && !autoSize">
+                    <div class="canvas-control-group" v-if="!autoSize">
                         <div class="canvas-control">
                             <label>
                                 Canvas w <strong class="canvas-value-wrapper">({{ canvasWidth }})</strong>
@@ -73,6 +157,8 @@
                         <input v-model.number="canvasBackground.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
                 </div>
+            </div>
+            <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
                         Smiley
@@ -108,8 +194,6 @@
                         </div>
                     </transition>
                 </div>
-            </div>
-            <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
                         Mouth
