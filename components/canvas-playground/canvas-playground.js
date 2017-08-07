@@ -14,6 +14,9 @@ let componentData = {
         appState.userData.canvasPlaygroundData.animationId = '';
         appState.userData.canvasPlaygroundData.manualAnimation = false;
         this.defaultData = _.cloneDeep(appState.appData.canvasPlaygroundDefaultData);
+        this.boundMethods = {
+            animate: this.animate.bind(this)
+        };
     },
     mounted: function(){
         this.setupCanvas();
@@ -36,6 +39,13 @@ let componentData = {
         if (this.animateCanvas){
             this.stopAnimating();
         }
+        this.boundMethods = null;
+        this.defaultData = null;
+        let canvas = this.$el.querySelector('.canvas-one');
+        canvas.parentNode.removeChild(canvas);
+        canvas = null;
+        this.$el.parentNode.removeChild(this.$el);
+        this.$el = null;
     },
     methods: {
         resetAll: function(){
@@ -260,14 +270,17 @@ let componentData = {
             if (this.animationCounter < this.animationFrameSkip){
                 this.animationCounter++;
                 if (!this.manualAnimation){
-                    this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                    this.animationId = window.requestAnimationFrame(this.boundMethods.animate);
                 }
+                return;
             } else {
                 this.animationCounter = 0;
                 if (!this.manualAnimation){
-                    this.animationId = window.requestAnimationFrame(this.animate.bind(this));
+                    this.animationId = window.requestAnimationFrame(this.boundMethods.animate);
                 }
             }
+            canvas = null;
+            ctx = null;
         },
         stopAnimating: function(){
             window.cancelAnimationFrame(this.animationId);
@@ -368,7 +381,10 @@ let componentData = {
         },
         resetDXPlus: function(){
             this.$data.dXPlus = appState.appData.canvasPlaygroundDefaultData.dXPlus;
-        }
+        },
+        resetDXTimes: function(){
+            this.$data.dXTimes = appState.appData.canvasPlaygroundDefaultData.dXTimes;
+        },
     },
     computed: {
         appState: function(){

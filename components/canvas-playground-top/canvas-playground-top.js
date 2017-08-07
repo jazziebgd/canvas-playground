@@ -86,7 +86,12 @@ let componentData = {
             return appState;
         },
         dataChanged: function(){
-            return JSON.stringify(this.$data) != JSON.stringify(this.defaultData);
+            let currentData = JSON.stringify(this.$data);
+            let defaultData = JSON.stringify(this.defaultData);
+            let result = currentData != defaultData;
+            currentData = null;
+            defaultData = null;
+            return result;
         }
     },
     watch: {}
