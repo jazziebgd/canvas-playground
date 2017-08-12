@@ -331,7 +331,7 @@ let componentData = {
             let userDataHelper = _appWrapper.getHelper('userData');
             let saved = await userDataHelper.saveUserData(appState.userData);
             if (saved && !noNotification){
-                // _appWrapper.addUserMessage('User data saved.', 'info', []);
+                _appWrapper.addUserMessage('User data saved.', 'info', []);
             }
         },
         userDataChanged: function(){
