@@ -71,12 +71,12 @@
                             <input v-model.number="dXTimes" type="text" />
                         </div>
                     </div>
-                    <div class="canvas-control">
+                    <!-- <div class="canvas-control">
                         <label>
                             Speed
                         </label>
                         <input v-model.number="animationFrameSkip" class="range-input range-input-reversed" type="range" :min="2" :max="59" step="1" />
-                    </div>
+                    </div> -->
                 </div>
                 <div class="canvas-control-group">
                     <div class="canvas-control">
@@ -84,21 +84,21 @@
                             Gravity <strong class="canvas-value-wrapper">({{ dYPlus }})</strong>
                         </label>
                         <input v-model.number="dYPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
-                        <a class="reset-dyplus fa fa-undo" @click.prevent="resetDYPlus"></a>
+                        <a class="reset-range reset-dyplus fa fa-undo" @click.prevent="resetDYPlus"></a>
                     </div>
                     <div class="canvas-control">
                         <label>
                             Wind <strong class="canvas-value-wrapper">({{ dXPlus }})</strong>
                         </label>
                         <input v-model.number="dXPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
-                        <a class="reset-dxplus fa fa-undo" @click.prevent="resetDXPlus"></a>
+                        <a class="reset-range reset-dxplus fa fa-undo" @click.prevent="resetDXPlus"></a>
                     </div>
                     <div class="canvas-control">
                         <label>
                             Air resistance <strong class="canvas-value-wrapper">({{ round(1 - dXTimes, 2) }})</strong>
                         </label>
-                        <input v-model.number="dXTimes" class="range-input" type="range" min="0.01" max="0.99" step="0.01" />
-                        <a class="reset-dxtimes fa fa-undo" @click.prevent="resetDXTimes"></a>
+                        <input v-model.number="dXTimes" class="range-input reversed-range-input" type="range" min="0.01" max="0.99" step="0.01" />
+                        <a class="reset-range reset-dxtimes fa fa-undo" @click.prevent="resetDXTimes"></a>
                     </div>
                 </div>
                 <transition name="fade">

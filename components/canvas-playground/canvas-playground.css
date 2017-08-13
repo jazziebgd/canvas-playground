@@ -106,3 +106,8 @@
     float: right;
 
 }
+.reset-range {
+    position: relative;
+    top: 14px;
+    margin-left: 5px;
+}
