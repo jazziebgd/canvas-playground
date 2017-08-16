@@ -1,14 +1,17 @@
 {
-  "name": "canvas-playground",
-  "version": "1.1.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "dependencies": {
-    "lodash": "^4.17.4"
-  }
+    "name": "nw-canvas-playground",
+    "version": "1.1.0",
+    "description": "Canvas playground component for nw-skeleton based apps",
+    "main": "index.js",
+    "scripts": {},
+    "repository": {
+        "type": "git",
+        "url": "git+ssh://git@github.com/jazziebgd/nw-canvas-playground.git"
+    },
+    "author": "Dino Ivankov <dinoivankov@gmail.com>",
+    "license": "MIT",
+    "homepage": "https://github.com/jazziebgd/nw-canvas-playgroun",
+    "dependencies": {
+        "lodash": "^4.17.4"
+    }
 }
