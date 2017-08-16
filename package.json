@@ -6,11 +6,11 @@
     "scripts": {},
     "repository": {
         "type": "git",
-        "url": "git+ssh://git@github.com/jazziebgd/nw-canvas-playground.git"
+        "url": "git+ssh://git@github.com/nwfw/nw-canvas-playground.git"
     },
     "author": "Dino Ivankov <dinoivankov@gmail.com>",
     "license": "MIT",
-    "homepage": "https://github.com/jazziebgd/nw-canvas-playgroun",
+    "homepage": "https://github.com/nwfw/nw-canvas-playgroun",
     "dependencies": {
         "lodash": "^4.17.4"
     }
