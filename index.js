@@ -13,3 +13,8 @@ exports.componentMapping = [
         }
     }
 ];
+exports.translations = {
+    'en-US': require(path.resolve(path.join(__dirname, './data/translations/en-US.i18n.js'))).data,
+    'sr-Cyrl-RS': require(path.resolve(path.join(__dirname, './data/translations/sr-Cyrl-RS.i18n.js'))).data,
+    'sr-Latn-RS': require(path.resolve(path.join(__dirname, './data/translations/sr-Latn-RS.i18n.js'))).data
+};

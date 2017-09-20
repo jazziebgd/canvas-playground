@@ -6,18 +6,18 @@
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label for="animateCanvas">
-                            Animate
+                            {{ translate('Animate') }}
                         </label>
                         <input id="animateCanvas" v-model="animateCanvas" type="checkbox" />
                     </div>
                     <div class="canvas-control" v-show="animateCanvas">
                         <label for="manualAnimation">
-                            Manual animation
+                            {{ translate('Manual animation') }}
                         </label>
                         <input id="manualAnimation" v-model="manualAnimation" type="checkbox" />
                     </div>
                     <div class="canvas-control animation-step-control" v-show="animateCanvas && manualAnimation">
-                        <input type="button" @click.prevent="animateManual" value="Animation step"/>
+                        <input type="button" @click.prevent="animateManual" :value="translate('Animation step')"/>
                     </div>
                     <div class="canvas-control-group animation-inspector" v-show="animateCanvas && manualAnimation">
                         <div class="canvas-control">
@@ -81,21 +81,21 @@
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label>
-                            Gravity <strong class="canvas-value-wrapper">({{ dYPlus }})</strong>
+                            {{ translate('Gravity') }} <strong class="canvas-value-wrapper">({{ dYPlus }})</strong>
                         </label>
                         <input v-model.number="dYPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
                         <a class="reset-range reset-dyplus fa fa-undo" @click.prevent="resetDYPlus"></a>
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Wind <strong class="canvas-value-wrapper">({{ dXPlus }})</strong>
+                            {{ translate('Wind') }} <strong class="canvas-value-wrapper">({{ dXPlus }})</strong>
                         </label>
                         <input v-model.number="dXPlus" class="range-input" type="range" min="-0.99" max="0.99" step="0.01" />
                         <a class="reset-range reset-dxplus fa fa-undo" @click.prevent="resetDXPlus"></a>
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Air resistance <strong class="canvas-value-wrapper">({{ round(1 - dXTimes, 2) }})</strong>
+                            {{ translate('Air resistance') }} <strong class="canvas-value-wrapper">({{ round(1 - dXTimes, 2) }})</strong>
                         </label>
                         <input v-model.number="dXTimes" class="range-input reversed-range-input" type="range" min="0.01" max="0.99" step="0.01" />
                         <a class="reset-range reset-dxtimes fa fa-undo" @click.prevent="resetDXTimes"></a>
@@ -105,13 +105,13 @@
                     <div class="canvas-control-group" v-if="!autoSize">
                         <div class="canvas-control">
                             <label>
-                                Canvas w <strong class="canvas-value-wrapper">({{ canvasWidth }})</strong>
+                                {{ translate('Canvas width') }} <strong class="canvas-value-wrapper">({{ canvasWidth }})</strong>
                             </label>
                             <input v-model.number="canvasWidth" class="range-input" type="range" v-bind:min="canvasMinWidth" :max="canvasMaxWidth" step="1" />
                         </div>
                         <div class="canvas-control">
                             <label>
-                                Canvas h <strong class="canvas-value-wrapper">({{ canvasHeight }})</strong>
+                                {{ translate('Canvas height') }} <strong class="canvas-value-wrapper">({{ canvasHeight }})</strong>
                             </label>
                             <input v-model.number="canvasHeight" class="range-input" type="range" v-bind:min="canvasMinHeight" :max="canvasMaxHeight" step="1" />
                         </div>
@@ -122,7 +122,7 @@
                         <transition name="fade">
                             <div class="canvas-control"  v-if="!autoCenter">
                                 <label>
-                                    Center X <strong class="canvas-value-wrapper">({{ smileyCenterX }})</strong>
+                                    {{ translate('Center X') }} <strong class="canvas-value-wrapper">({{ smileyCenterX }})</strong>
                                 </label>
                                 <input v-model.number="smileyCenterX" class="range-input" type="range" :min="canvasBleed + smileyRadius" :max="canvasWidth - smileyRadius - canvasBleed" step="1" />
                             </div>
@@ -130,14 +130,14 @@
                         <transition name="fade">
                             <div class="canvas-control" v-if="!autoCenter">
                                 <label>
-                                    Center Y <strong class="canvas-value-wrapper">({{ smileyCenterY }})</strong>
+                                    {{ translate('Center Y') }} <strong class="canvas-value-wrapper">({{ smileyCenterY }})</strong>
                                 </label>
                                 <input v-model.number="smileyCenterY" class="range-input" type="range" :min="canvasBleed + smileyRadius" :max="canvasHeight - smileyRadius - canvasBleed" step="1" />
                             </div>
                         </transition>
                         <div class="canvas-control">
                             <label>
-                                Radius <strong class="canvas-value-wrapper">({{ smileyRadius }})</strong>
+                                {{ translate('Radius') }} <strong class="canvas-value-wrapper">({{ smileyRadius }})</strong>
                             </label>
                             <input v-model.number="smileyRadius" class="range-input" type="range" :min="10" :max="200" step="1" />
                         </div>
@@ -146,13 +146,13 @@
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label>
-                            Background color
+                            {{ translate('Background color') }}
                         </label>
                         <input type="color" v-model="canvasBackground.hex" />
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Alpha <strong class="canvas-value-wrapper">({{ canvasBackground.alpha }})</strong>
+                            {{ translate('Alpha') }} <strong class="canvas-value-wrapper">({{ canvasBackground.alpha }})</strong>
                         </label>
                         <input v-model.number="canvasBackground.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
@@ -161,18 +161,18 @@
             <div class="canvas-control-column">
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
-                        Smiley
+                        {{ translate('Smiley') }}
                     </div>
                     <div class="canvas-control">
                         <label for="smileyStroke.enabled">
-                            Outer stroke
+                            {{ translate('Outer stroke') }}
                         </label>
                         <input id="smileyStroke.enabled" v-model="smileyStroke.enabled" type="checkbox" />
                     </div>
                     <transition name="fade">
                         <div class="canvas-control" v-if="smileyStroke.enabled && !autoStrokeWidth">
                             <label>
-                                Stroke width <strong class="canvas-value-wrapper">({{ smileyStroke.width }})</strong>
+                                {{ translate('Stroke width') }} <strong class="canvas-value-wrapper">({{ smileyStroke.width }})</strong>
                             </label>
                             <input v-model.number="smileyStroke.width" class="range-input" type="range" :min="1" :max="10" step="0.01" />
                         </div>
@@ -181,13 +181,13 @@
                         <div class="canvas-control-group" v-if="smileyStroke.enabled">
                             <div class="canvas-control">
                                 <label>
-                                    Stroke color
+                                    {{ translate('Stroke color') }}
                                 </label>
                                 <input type="color" v-model="smileyStroke.hex" />
                             </div>
                             <div class="canvas-control">
                                 <label>
-                                    Alpha <strong class="canvas-value-wrapper">({{ smileyStroke.alpha }})</strong>
+                                    {{ translate('Alpha') }} <strong class="canvas-value-wrapper">({{ smileyStroke.alpha }})</strong>
                                 </label>
                                 <input v-model.number="smileyStroke.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                             </div>
@@ -196,25 +196,25 @@
                 </div>
                 <div class="canvas-control-group">
                     <div class="canvas-control-group-title">
-                        Mouth
+                        {{ translate('Mouth') }}
                     </div>
                     <transition name="fade">
                         <div class="canvas-control" v-if="!autoStrokeWidth">
                             <label>
-                                Width <strong class="canvas-value-wrapper">({{ mouthStroke.width }})</strong>
+                                {{ translate('Width') }} <strong class="canvas-value-wrapper">({{ mouthStroke.width }})</strong>
                             </label>
                             <input v-model.number="mouthStroke.width" class="range-input" type="range" :min="1" :max="10" step="0.01" />
                         </div>
                     </transition>
                     <div class="canvas-control">
                         <label>
-                            Color
+                            {{ translate('Color') }}
                         </label>
                         <input type="color" v-model="mouthStroke.hex" />
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Alpha <strong class="canvas-value-wrapper">({{ mouthStroke.alpha }})</strong>
+                            {{ translate('Alpha') }} <strong class="canvas-value-wrapper">({{ mouthStroke.alpha }})</strong>
                         </label>
                         <input v-model.number="mouthStroke.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
@@ -222,13 +222,13 @@
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label>
-                            Smiley color
+                            {{ translate('Smiley color') }}
                         </label>
                         <input type="color" v-model="smileyFill.hex" />
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Alpha <strong class="canvas-value-wrapper">({{ smileyFill.alpha }})</strong>
+                            {{ translate('Alpha') }} <strong class="canvas-value-wrapper">({{ smileyFill.alpha }})</strong>
                         </label>
                         <input v-model.number="smileyFill.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
@@ -236,13 +236,13 @@
                 <div class="canvas-control-group">
                     <div class="canvas-control">
                         <label>
-                            Eyes color
+                            {{ translate('Eyes color') }}
                         </label>
                         <input type="color" v-model="eyeFill.hex" />
                     </div>
                     <div class="canvas-control">
                         <label>
-                            Alpha <strong class="canvas-value-wrapper">({{ eyeFill.alpha }})</strong>
+                            {{ translate('Alpha') }} <strong class="canvas-value-wrapper">({{ eyeFill.alpha }})</strong>
                         </label>
                         <input v-model.number="eyeFill.alpha" class="range-input" type="range" :min="0" :max="1" step="0.01" />
                     </div>
@@ -251,7 +251,7 @@
         </div>
         <div class="canvas-wrapper">
             <canvas :width="canvasWidth" :height="canvasHeight" class="canvas-one" @click.prevent="canvasClick">
-                no canvas support
+                {{ translate('No canvas support') }}
             </canvas>
         </div>
     </div>
